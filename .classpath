@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="lib" path="lib/gson-2.8.5.jar"/>
+	<classpathentry kind="lib" path="lib/mockito-core-2.23.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Деси/Desktop/commons-math-2.2/commons-math-2.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
