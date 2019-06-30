@@ -1,4 +1,4 @@
-package bg.sofia.uni.fmi.splitwise;
+package bg.sofia.uni.fmi.splitwise.client;
 
 import java.util.HashSet;
 import java.util.Set;

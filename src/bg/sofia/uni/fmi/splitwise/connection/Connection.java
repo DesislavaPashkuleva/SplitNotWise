@@ -1,8 +1,11 @@
-package bg.sofia.uni.fmi.splitwise;
+package bg.sofia.uni.fmi.splitwise.connection;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import bg.sofia.uni.fmi.splitwise.client.UserInfo;
+import bg.sofia.uni.fmi.splitwise.server.Server;
 
 public class Connection {
 

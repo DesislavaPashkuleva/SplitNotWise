@@ -1,4 +1,4 @@
-package bg.sofia.uni.fmi.splitwise;
+package bg.sofia.uni.fmi.splitwise.server;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,6 +8,9 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import bg.sofia.uni.fmi.splitwise.client.ClientConnectionRunnable;
+import bg.sofia.uni.fmi.splitwise.client.UserInfo;
 
 
 public class Server {

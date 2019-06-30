@@ -1,35 +1,35 @@
-package bg.sofia.uni.fmi.splitwise;
+package bg.sofia.uni.fmi.splitwise.commands;
 
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class MoneySplitter {
+import bg.sofia.uni.fmi.splitwise.server.Server;
+
+public class Payment {
 
 	private String username;
 	private PrintWriter writer;
 	private Server server;
 
-	public MoneySplitter(String username, PrintWriter writer, Server server) {
+	public Payment(String username, PrintWriter writer, Server server) {
 		this.username = username;
 		this.writer = writer;
 		this.server = server;
 	}
 
-	public void split(String[] input) {
-		if (isCorrectInput(input)) {
+	public void pay(String[] input) {
+		if (isInputCorrect(input)) {
 			String friend = input[2];
-			Double sum = Double.parseDouble(input[1]) / 2;
-			server.getUser(username).updateSum(sum, friend);
-			server.getUser(friend).updateSum(-sum, username);
-			String message = "Splited " + sum * 2 + " lv between you and " + server.getUserInfo(friend);
-			writer.println(message);
-			server.registerPayment(username, message);
+			Double sum = Double.parseDouble(input[1]);
+			server.getUser(username).updateSum(-sum, friend);
+			server.getUser(friend).updateSum(sum, username);
+			writer.println(server.getUserInfo(friend) + " payed you " + sum + " lv");
 			makeNotification(input);
 			currentStatus(friend, server.getUser(username).getFriendsSum(friend));
 		}
 	}
 
-	private boolean isCorrectInput(String[] input) {
+	private boolean isInputCorrect(String[] input) {
 		if (input.length != 3) {
 			writer.println("Wrong command! You have writen less than 3 arguments!");
 			return false;
@@ -46,7 +46,7 @@ public class MoneySplitter {
 		String sum = input[1];
 		String name = input[2];
 		String[] purpose = Arrays.copyOfRange(input, 3, input.length);
-		String message = username + " payed " + sum + " lv [" + String.join(" ", purpose) + "].";
+		String message = username + " approved your payment " + sum + " lv [" + String.join(" ", purpose) + "].";
 		server.makeNotificationForOfflineUsers(name, message, "friends");
 	}
 

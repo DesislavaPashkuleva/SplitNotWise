@@ -1,8 +1,16 @@
-package bg.sofia.uni.fmi.splitwise;
+package bg.sofia.uni.fmi.splitwise.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import bg.sofia.uni.fmi.splitwise.commands.FriendMaker;
+import bg.sofia.uni.fmi.splitwise.commands.GroupCreator;
+import bg.sofia.uni.fmi.splitwise.commands.GroupMoneySplitter;
+import bg.sofia.uni.fmi.splitwise.commands.MoneySplitter;
+import bg.sofia.uni.fmi.splitwise.commands.Payment;
+import bg.sofia.uni.fmi.splitwise.commands.Status;
+import bg.sofia.uni.fmi.splitwise.server.Server;
 
 public class ClientInputExecutor {
 

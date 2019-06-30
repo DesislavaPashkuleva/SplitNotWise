@@ -1,33 +1,37 @@
-package bg.sofia.uni.fmi.splitwise;
+package bg.sofia.uni.fmi.splitwise.commands;
 
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Payment {
+import bg.sofia.uni.fmi.splitwise.server.Server;
+
+public class MoneySplitter {
 
 	private String username;
 	private PrintWriter writer;
 	private Server server;
 
-	public Payment(String username, PrintWriter writer, Server server) {
+	public MoneySplitter(String username, PrintWriter writer, Server server) {
 		this.username = username;
 		this.writer = writer;
 		this.server = server;
 	}
 
-	public void pay(String[] input) {
-		if (isInputCorrect(input)) {
+	public void split(String[] input) {
+		if (isCorrectInput(input)) {
 			String friend = input[2];
-			Double sum = Double.parseDouble(input[1]);
-			server.getUser(username).updateSum(-sum, friend);
-			server.getUser(friend).updateSum(sum, username);
-			writer.println(server.getUserInfo(friend) + " payed you " + sum + " lv");
+			Double sum = Double.parseDouble(input[1]) / 2;
+			server.getUser(username).updateSum(sum, friend);
+			server.getUser(friend).updateSum(-sum, username);
+			String message = "Splited " + sum * 2 + " lv between you and " + server.getUserInfo(friend);
+			writer.println(message);
+			server.registerPayment(username, message);
 			makeNotification(input);
 			currentStatus(friend, server.getUser(username).getFriendsSum(friend));
 		}
 	}
 
-	private boolean isInputCorrect(String[] input) {
+	private boolean isCorrectInput(String[] input) {
 		if (input.length != 3) {
 			writer.println("Wrong command! You have writen less than 3 arguments!");
 			return false;
@@ -44,7 +48,7 @@ public class Payment {
 		String sum = input[1];
 		String name = input[2];
 		String[] purpose = Arrays.copyOfRange(input, 3, input.length);
-		String message = username + " approved your payment " + sum + " lv [" + String.join(" ", purpose) + "].";
+		String message = username + " payed " + sum + " lv [" + String.join(" ", purpose) + "].";
 		server.makeNotificationForOfflineUsers(name, message, "friends");
 	}
 

@@ -1,6 +1,8 @@
-package bg.sofia.uni.fmi.splitwise;
+package bg.sofia.uni.fmi.splitwise.commands;
 
 import java.io.PrintWriter;
+
+import bg.sofia.uni.fmi.splitwise.server.Server;
 
 public class Status {
 
