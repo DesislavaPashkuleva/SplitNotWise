@@ -24,7 +24,6 @@ public class ClientRunnable implements Runnable {
 				System.out.println(reader.readLine());
 			}
 		} catch (IOException e) {
-			System.out.println("Problem with the client socket!");
 		}
 	}
 }

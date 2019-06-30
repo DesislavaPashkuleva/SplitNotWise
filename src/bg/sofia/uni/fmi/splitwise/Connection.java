@@ -26,7 +26,7 @@ public class Connection {
 				synchronized (server.getUsers()) {
 					if (command.equals("login") && logIn()) {
 						return;
-					} else if (register()) {
+					} else if (command.equals("register") && register()) {
 						return;
 					}
 				}
@@ -66,7 +66,6 @@ public class Connection {
 			writer.println("Wrong password! Enter username and password again!");
 			return false;
 		} else {
-//			getNotification();
 			writer.println("Successfully login user: " + getUserInfo(username));
 			return true;
 		}

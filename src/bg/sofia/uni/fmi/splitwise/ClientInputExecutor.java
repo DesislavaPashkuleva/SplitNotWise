@@ -21,18 +21,23 @@ public class ClientInputExecutor {
 	public void run() {
 		while (true) {
 			writer.println("Enter command: ");
-			try {
-				String command = reader.readLine();
-				execute(command);
-				if (command.startsWith("logout")) {
-					return;
-				}
-			} catch (IOException e) {
-				System.out.println("Problem while executing the commands! Try again later!");
-				server.registerError(e.getMessage());
-				e.printStackTrace();
+			String command = getCommand();
+			execute(command);
+			if (command.startsWith("logout")) {
+				return;
 			}
 		}
+	}
+
+	private String getCommand() {
+		try {
+			return reader.readLine();
+		} catch (IOException e) {
+			System.out.println("Problem while executing the commands! Try again later!");
+			server.registerError(e.getMessage());
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	private void execute(String commandInput) {

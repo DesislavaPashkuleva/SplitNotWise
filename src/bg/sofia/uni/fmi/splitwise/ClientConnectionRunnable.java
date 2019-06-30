@@ -17,11 +17,11 @@ public class ClientConnectionRunnable implements Runnable, Serializable {
 	private Server server;
 
 	public ClientConnectionRunnable(Socket socket, Server server) {
-		this.socket = socket;
-		this.server = server;
 		try {
-			writer = new PrintWriter(socket.getOutputStream(), true);
-			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			this.writer = new PrintWriter(socket.getOutputStream(), true);
+			this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			this.socket = socket;
+			this.server = server;
 		} catch (IOException e) {
 			System.out.println("Problem while connecting! Please try again later!");
 			server.registerError(e.getMessage());
@@ -31,19 +31,19 @@ public class ClientConnectionRunnable implements Runnable, Serializable {
 
 	@Override
 	public void run() {
-			establishConnection();
-			getAndExecuteClientCommands();
-			cleanUp();
+		connect();
+		getAndExecuteClientCommands();
+		cleanUp();
 	}
 
-	private void establishConnection() {
+	private void connect() {
 		Connection connection = new Connection(reader, writer, server);
 		connection.connect();
 		this.username = connection.getUsername();
 	}
-	
+
 	private void getAndExecuteClientCommands() {
-		new ClientInputExecutor(username, reader, writer, server).run();;
+		new ClientInputExecutor(username, reader, writer, server).run();
 	}
 
 	private void cleanUp() {

@@ -16,6 +16,18 @@ public class Client {
 	private final int PORT = 8080;
 	private final String LOCALHOST = "localhost";
 
+	public Client() {
+		try {
+			socket = new Socket(LOCALHOST, PORT);
+			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			writer = new PrintWriter(socket.getOutputStream(), true);
+		} catch (IOException e) {
+			System.out.println(
+					"There was a problem while connecting the server! Try again later or contact the administrator.");
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
 		new Client().run();
 	}
@@ -46,19 +58,9 @@ public class Client {
 	}
 
 	private void connectToServer(String input) {
-		try {
-			socket = new Socket(LOCALHOST, PORT);
-			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			writer = new PrintWriter(socket.getOutputStream(), true);
-			System.out.println("Successfully connected to the server!");
-			writer.println(input);
-			new Thread(new ClientRunnable(socket)).start();
-
-		} catch (IOException e) {
-			System.out.println(
-					"There was a problem while connecting the server! Try again later or contact the administrator.");
-			e.printStackTrace();
-		}
+		new Thread(new ClientRunnable(socket)).start();
+		writer.println(input);
+		System.out.println("Successfully connected to the server!");
 	}
 
 	private void acceptUserCommands(Scanner scanner) {
@@ -66,9 +68,9 @@ public class Client {
 			String input = scanner.nextLine();
 			if (input.startsWith("logout")) {
 				writer.println(input);
+				System.out.println("Loggin out");
 				return;
 			}
-
 			writer.println(input);
 		}
 	}

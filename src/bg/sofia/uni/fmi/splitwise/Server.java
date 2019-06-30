@@ -20,7 +20,7 @@ public class Server {
 	private HashMap<String, File> paymentHistory;
 	private File errors;
 
-	Server(ServerSocket serverSocket) {
+	public Server(ServerSocket serverSocket) {
 		this.serverSocket = serverSocket;
 		users = new HashMap<>();
 		groups = new HashMap<>();
@@ -39,7 +39,6 @@ public class Server {
 
 	private void run() {
 		System.out.println("The server is running");
-//		restoreUserInformation();
 		
 		while (true) {
 			try {
@@ -62,6 +61,12 @@ public class Server {
 		synchronized (users) {
 			return users.get(username);
 		}
+	}
+	
+	public String getUserInfo(String username) {
+		UserInfo user = getUser(username);
+		String info = user.getName() + " " + user.getSurname() + " (" + username + ")";
+		return info;
 	}
 
 	public Map<String, Double> getUsersInTheGroup(String group) {
@@ -92,14 +97,6 @@ public class Server {
 		synchronized (users) {
 			users.put(username, user);
 			paymentHistory.put(username, new File("resources/" + username + ".txt"));
-//			try {
-//				ObjectOutputStream userWriter = new ObjectOutputStream(new FileOutputStream(dataBase));
-//				userWriter.writeObject(user);
-//				userWriter.close();
-//			} catch (IOException e) {
-//				System.out.println("There is a problem with registering the user in the server!");
-//				registerError(e.getMessage());
-//			}
 		}
 	}
 
@@ -153,12 +150,6 @@ public class Server {
 			System.out.println("There was a problem while registerig the user!");
 			registerError(e.getMessage());
 		}
-	}
-
-	public String getUserInfo(String username) {
-		UserInfo user = getUser(username);
-		String info = user.getName() + " " + user.getSurname() + " (" + username + ")";
-		return info;
 	}
 
 }
