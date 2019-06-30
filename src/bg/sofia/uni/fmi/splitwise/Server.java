@@ -1,13 +1,8 @@
 package bg.sofia.uni.fmi.splitwise;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-//import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-//import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -19,7 +14,6 @@ public class Server {
 	private static final int PORT = 8080;
 	private ServerSocket serverSocket;
 
-	private File dataBase;
 	private HashMap<String, UserInfo> users;
 	private HashMap<String, HashMap<String, Double>> groups;
 	private HashMap<String, HashMap<String, ArrayList<String>>> offlineUsers;
@@ -28,7 +22,6 @@ public class Server {
 
 	Server(ServerSocket serverSocket) {
 		this.serverSocket = serverSocket;
-		dataBase = new File("resources/DataBase.ser");
 		users = new HashMap<>();
 		groups = new HashMap<>();
 		offlineUsers = new HashMap<>();
@@ -162,30 +155,6 @@ public class Server {
 		}
 	}
 
-	private void restoreUserInformation() {
-		try {
-			ObjectInputStream userReader = new ObjectInputStream(new FileInputStream(dataBase));
-			try {
-				UserInfo user = (UserInfo) userReader.readObject();
-				while (user != null) {
-					users.put(user.getUsername(), user);
-					user = (UserInfo) userReader.readObject();
-				}
-				userReader.close();
-			} catch (ClassNotFoundException e) {
-				System.out.println("There is a problem with the dataBase!");
-				registerError(e.getMessage());
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("There is a problem with the dataBase! DataBase is not found!");
-			registerError(e.getMessage());
-		} catch (IOException e) {
-			System.out.println("There is a problem with restorig the user information!");
-			registerError(e.getMessage());
-			e.printStackTrace();
-		}
-	}
-	
 	public String getUserInfo(String username) {
 		UserInfo user = getUser(username);
 		String info = user.getName() + " " + user.getSurname() + " (" + username + ")";
