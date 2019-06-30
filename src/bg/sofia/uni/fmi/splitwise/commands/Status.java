@@ -15,7 +15,7 @@ public class Status {
 		this.writer = writer;
 		this.server = server;
 	}
-	
+
 	public void get() {
 		writer.println("Friends:");
 		for (String user : server.getUser(username).getFriends()) {
@@ -35,8 +35,8 @@ public class Status {
 			}
 		}
 	}
-	
-	private void currentStatus(String user, double sum) {
+
+	public void currentStatus(String user, double sum) {
 		if (sum > 0.0) {
 			writer.println(server.getUserInfo(user) + ": Owes you " + sum + " lv");
 		} else if (sum < 0.0) {

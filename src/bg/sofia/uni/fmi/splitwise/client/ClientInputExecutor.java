@@ -19,6 +19,8 @@ public class ClientInputExecutor {
 	private PrintWriter writer;
 	private Server server;
 
+	private final int COMMAND_INDEX = 0;
+
 	public ClientInputExecutor(String username, BufferedReader reader, PrintWriter writer, Server server) {
 		this.username = username;
 		this.reader = reader;
@@ -50,7 +52,7 @@ public class ClientInputExecutor {
 
 	private void execute(String commandInput) {
 		String[] input = commandInput.split(" ");
-		String command = input[0];
+		String command = input[COMMAND_INDEX];
 
 		if (command.equals("logout")) {
 			logout();

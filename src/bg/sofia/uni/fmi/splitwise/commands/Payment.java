@@ -11,6 +11,10 @@ public class Payment {
 	private PrintWriter writer;
 	private Server server;
 
+	private final int SUM_INDEX = 1;
+	private final int FRIEND_INDEX = 2;
+	private final int COMMAND_LENGTH = 3;
+
 	public Payment(String username, PrintWriter writer, Server server) {
 		this.username = username;
 		this.writer = writer;
@@ -19,8 +23,8 @@ public class Payment {
 
 	public void pay(String[] input) {
 		if (isInputCorrect(input)) {
-			String friend = input[2];
-			Double sum = Double.parseDouble(input[1]);
+			String friend = input[FRIEND_INDEX];
+			Double sum = Double.parseDouble(input[SUM_INDEX]);
 			server.getUser(username).updateSum(-sum, friend);
 			server.getUser(friend).updateSum(sum, username);
 			writer.println(server.getUserInfo(friend) + " payed you " + sum + " lv");
@@ -30,11 +34,11 @@ public class Payment {
 	}
 
 	private boolean isInputCorrect(String[] input) {
-		if (input.length != 3) {
+		if (input.length != COMMAND_LENGTH) {
 			writer.println("Wrong command! You have writen less than 3 arguments!");
 			return false;
 		}
-		String friend = input[2];
+		String friend = input[FRIEND_INDEX];
 		if (!server.isUserExisting(friend)) {
 			writer.println("User " + friend + " doesn't exist!");
 			return false;
@@ -43,22 +47,15 @@ public class Payment {
 	}
 
 	private void makeNotification(String[] input) {
-		String sum = input[1];
-		String name = input[2];
-		String[] purpose = Arrays.copyOfRange(input, 3, input.length);
+		String sum = input[SUM_INDEX];
+		String name = input[FRIEND_INDEX];
+		String[] purpose = Arrays.copyOfRange(input, COMMAND_LENGTH, input.length);
 		String message = username + " approved your payment " + sum + " lv [" + String.join(" ", purpose) + "].";
 		server.makeNotificationForOfflineUsers(name, message, "friends");
 	}
 
 	private void currentStatus(String user, double sum) {
-		if (sum > 0.0) {
-			writer.println(server.getUserInfo(user) + ": Owes you " + sum + " lv");
-		} else if (sum < 0.0) {
-			sum = -sum;
-			writer.println(server.getUserInfo(user) + ": You owe " + sum + " lv");
-		} else {
-			writer.println(server.getUserInfo(user) + ": Owes you nothing");
-		}
+		new Status(user, writer, server).currentStatus(user, sum);
 	}
 
 }

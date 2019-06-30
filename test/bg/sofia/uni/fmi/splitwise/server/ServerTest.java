@@ -46,7 +46,7 @@ public class ServerTest {
 		boolean result = server.isUserExisting("name");
 		assertTrue(result);
 	}
-	
+
 	@Test
 	public void testGetUserInfo() {
 		UserInfo user = new UserInfo("user", "password", "name", "surname");
@@ -55,8 +55,8 @@ public class ServerTest {
 		String result = server.getUserInfo("user");
 		assertEquals(expected, result);
 	}
-	
-	@Test 
+
+	@Test
 	public void testCreateGroup() {
 		HashMap<String, Double> users = new HashMap<>();
 		users.put("a", 0.0);
@@ -65,7 +65,7 @@ public class ServerTest {
 		assertTrue(server.isGroupExisting("group"));
 	}
 
-	@Test 
+	@Test
 	public void testGetUsersInTheGroup() {
 		HashMap<String, Double> users = new HashMap<>();
 		users.put("a", 0.0);
@@ -74,8 +74,8 @@ public class ServerTest {
 		Map<String, Double> result = server.getUsersInTheGroup("g");
 		assertEquals(users, result);
 	}
-	
-	@Test 
+
+	@Test
 	public void testIsGroupExisting() {
 		HashMap<String, Double> users = new HashMap<>();
 		users.put("a", 0.0);
@@ -83,7 +83,7 @@ public class ServerTest {
 		server.createGroup("name", users);
 		assertTrue(server.isGroupExisting("group"));
 	}
-	
+
 	@After
 	public void clenUp() {
 		try {

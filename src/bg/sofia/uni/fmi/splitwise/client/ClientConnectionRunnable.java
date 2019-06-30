@@ -35,7 +35,7 @@ public class ClientConnectionRunnable implements Runnable, Serializable {
 	@Override
 	public void run() {
 		connect();
-		getAndExecuteClientCommands();
+		manageClientCommands();
 		cleanUp();
 	}
 
@@ -45,7 +45,7 @@ public class ClientConnectionRunnable implements Runnable, Serializable {
 		this.username = connection.getUsername();
 	}
 
-	private void getAndExecuteClientCommands() {
+	private void manageClientCommands() {
 		new ClientInputExecutor(username, reader, writer, server).run();
 	}
 

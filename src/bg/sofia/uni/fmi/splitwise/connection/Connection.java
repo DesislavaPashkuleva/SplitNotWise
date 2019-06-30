@@ -15,6 +15,11 @@ public class Connection {
 	private PrintWriter writer;
 	private Server server;
 
+	private final int CREDENTIALS_LENGTH = 2;
+	private final int NAME_INDEX = 0;
+	private final int PASSWORD_INDEX = 1;
+	private final int SURNAME_INDEX = 1;
+
 	public Connection(BufferedReader reader, PrintWriter writer, Server server) {
 		this.reader = reader;
 		this.writer = writer;
@@ -50,8 +55,8 @@ public class Connection {
 					continue;
 				}
 				String[] credentials = clientInput.split(" ");
-				username = credentials[0];
-				password = credentials[1];
+				username = credentials[NAME_INDEX];
+				password = credentials[PASSWORD_INDEX];
 				break;
 			} catch (IOException e) {
 				System.out.println("Problem while entering username and password! Try again later!");
@@ -80,7 +85,7 @@ public class Connection {
 			return false;
 		} else {
 			String[] names = getNameAndSurname().split(" ");
-			server.registerUser(username, new UserInfo(username, password, names[0], names[1]));
+			server.registerUser(username, new UserInfo(username, password, names[NAME_INDEX], names[SURNAME_INDEX]));
 			writer.println("Successfully registered user: " + getUserInfo(username));
 			return true;
 		}
@@ -109,7 +114,7 @@ public class Connection {
 		}
 
 		String[] names = command.split(" ");
-		if (names.length != 2) {
+		if (names.length != CREDENTIALS_LENGTH) {
 			writer.println("Wrong entered credentials! Please enter again!");
 			return false;
 		}
@@ -122,7 +127,7 @@ public class Connection {
 		String info = user.getName() + " " + user.getSurname() + " (" + username + ")";
 		return info;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}

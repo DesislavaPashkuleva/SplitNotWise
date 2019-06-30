@@ -12,7 +12,6 @@ import java.util.Map;
 import bg.sofia.uni.fmi.splitwise.client.ClientConnectionRunnable;
 import bg.sofia.uni.fmi.splitwise.client.UserInfo;
 
-
 public class Server {
 	private static final int PORT = 8080;
 	private ServerSocket serverSocket;
@@ -42,7 +41,7 @@ public class Server {
 
 	private void run() {
 		System.out.println("The server is running");
-		
+
 		while (true) {
 			try {
 				new Thread(new ClientConnectionRunnable(serverSocket.accept(), this)).start();
@@ -65,7 +64,7 @@ public class Server {
 			return users.get(username);
 		}
 	}
-	
+
 	public String getUserInfo(String username) {
 		UserInfo user = getUser(username);
 		String info = user.getName() + " " + user.getSurname() + " (" + username + ")";
